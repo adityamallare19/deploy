@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
+" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js
+" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<title>User Profile Setting</title>
+<style>
+ body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        #sidebar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #87CEEB; /* Light blue color */
+            padding-top: 20px;
+            color: #fff;
+        }
+
+        #content {
+            margin-left: 200px;
+            padding: 20px;
+            background-color: #fff; /* White color */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Style the sidebar links */
+        #sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+
+        /* Change color on hover */
+        #sidebar a:hover {
+            background-color: #5F9EA0; /* Darker blue on hover */
+        }
+</style>
+</head>
+<body th:each="userDetail : ${user}">
+
+  <div id="sidebar">
+        <a href="#">Profile</a>
+        <a href="/userHome">Go Back</a>
+    </div>
+<div class="main" id="content">
+<h1>Profile Settings</h1>
+<div style="padding-left: 50px;">
+<form id="profileUpdate" action="/user/updateUserDetails" th:object="${received}" method="post"><br><br>
+<!-- <div class="mb-3 row">
+<label for="staticEmail" class="col-sm-2 col-form-label">User Id</label>
+<div class="col-sm-5">
+<input type="text" readonly class="form-control-plaintext" value="" th:text="${userDetail.id}">
+</div>
+</div>-->
+
+<div class="mb-3 row">
+<label for="firstname" class="col-sm-2 col-form-label">First Name</label>
+<div class="col-sm-5">
+<input type="text" class="form-control" id="firstname" value="" name="firstname" th:value="${user != null and user.size() > 0 ? user[0].firstname : ''}" required>
+</div>
+</div>
+<div class="mb-3 row">
+<label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+<div class="col-sm-5">
+<input type="text" class="form-control" id="lastname" value="" name="lastname" th:value="${user != null and user.size() > 0 ? user[0].lastname : ''}" required>
+</div>
+</div>
+<div class="mb-3 row">
+<label for="city" class="col-sm-2 col-form-label">City</label>
+<div class="col-sm-5">
+<input type="text" class="form-control" id="city" value="" name="city" th:value="${user != null and user.size() > 0 ? user[0].city : ''}" required>
+</div>
+</div>
+<div class="mb-3 row">
+<label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+<div class="col-sm-5">
+<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="" name="email" th:value="${user != null and user.size() > 0 ? user[0].email : ''}">
+</div>
+</div>
+<div class="mb-3 row">
+<label for="inputPassword" class="col-sm-2 col-form-label">Gender</label>
+<div class="col-sm-5">
+<select class="form-select" aria-label="Default select example" name="gender" required>
+<option value="" th:selected="${userDetail.gender == null or userDetail.gender == ''}">Select Gender</option>
+<option value="male" th:selected="${userDetail.gender == 'male'}">Male</option>
+<option value="female" th:selected="${userDetail.gender == 'female'}">Female</option>
+<option value="other" th:selected="${userDetail.gender == 'other'}">Others</option>
+</select>  
+</div>
+</div>
+<div class="mb-3 row">
+<label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
+<div class="col-sm-5">
+<input type="date" class="form-control" value="" name="dateOfBirth" placeholder="dob" th:value="${user != null and user.size() > 0 ? user[0].dateOfBirth : ''}" required>
+</div>
+</div>
+<div class="mb-3 row">
+<label for="inputPassword" class="col-sm-2 col-form-label">Blood Group</label>
+<div class="col-sm-5">
+<select class="form-select" aria-label="Default select example" name="bloodGroup" required>
+<option value="" th:selected="${userDetail.bloodGroup == null or userDetail.bloodGroup == ''}">Select Blood Group</option>
+<option value="A+" th:selected="${userDetail.bloodGroup == 'A+'}">A+</option>
+<option value="A-" th:selected="${userDetail.bloodGroup == 'A-'}">A-</option>
+<option value="B+" th:selected="${userDetail.bloodGroup == 'B+'}">B+</option>
+<option value="B-" th:selected="${userDetail.bloodGroup == 'B-'}">B-</option>
+<option value="O+" th:selected="${userDetail.bloodGroup == 'O+'}">O+</option>
+<option value="O-" th:selected="${userDetail.bloodGroup == 'O-'}">O-</option>
+<option value="AB+" th:selected="${userDetail.bloodGroup == 'AB+'}">AB+</option>
+<option value="AB-" th:selected="${userDetail.bloodGroup == 'AB-'}">AB-</option>
+</select>    
+</div>
+</div>
+<div class="mt-5 text-left" style="padding-left: 300px;">
+<!-- <button class="btn btn-primary profile-button" type="button" onclick="updateProfile()">Update Profile</button>-->
+<button class="btn btn-primary profile-button" type="submit" onclick="saveProfile()">Save Profile</button>
+</div>
+</div>
+</form>
+</div>
+
+<script src="
+https://code.jquery.com/jquery-3.6.0.min.js
+"></script>
+<script src="script.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js
+" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js
+" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script>
+   function saveProfile() {
+       // Add your logic for saving the profile here
+       alert("Profile Saved!")
+   }
+</script>
+</body>
+</html>
